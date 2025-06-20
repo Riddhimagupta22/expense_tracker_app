@@ -1,4 +1,5 @@
 import 'package:expense_tracker_app/Modules/dashboard/view/Widget/head_widget.dart';
+import 'package:expense_tracker_app/Modules/dashboard/view/Widget/transactionlist.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../Comman_Wigets/widget/custom Container/custom_container.dart';
@@ -9,25 +10,70 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List transaction = [
+      {
+        'image': "",
+        'title': "Upwork",
+        'subtitle': "Today",
+        'amount': "+ \$ 850.00",
+        'amountcolor': Colors.green
+      },
+    ];
     return Scaffold(
-      body: SafeArea(
-          child: Stack(
-            children: [
-              Column(
+        body: SafeArea(
+            child: SingleChildScrollView(
+      child: Stack(children: [
+        Column(
+          children: [
+            CustomContainer(
+              child: HeadWidget(),
+            ),
+            SizedBox(height: 80),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomContainer(
-                    child: HeadWidget(),
+                  Text(
+                    "Transactions history",
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    "See all",
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromRGBO(102, 102, 102, 1),
+                    ),
                   ),
                 ],
               ),
-              Positioned(
-                top: 150,
-                left: 32,
-                child: CustomCard(),
-              )
-            ],
-          ),
-      ),
-    );
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: transaction.length,
+              itemBuilder: (context, index) {
+                final item = transaction[index];
+                return Transactionlist(
+                    image: item['image'],
+                    title: item['title'],
+                    subtitle: item['subtitle'],
+                    amount: item['amount'],
+                    amountColor: item['amountcolor']);
+              },
+            ),
+          ],
+        ),
+        Positioned(
+          top: 150,
+          left: 32,
+          child: CustomCard(),
+        ),
+      ]),
+    )));
   }
 }
