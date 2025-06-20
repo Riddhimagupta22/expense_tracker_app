@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "463214715157",
+    "project_id": "superb-joy-447518-c4",
+    "storage_bucket": "superb-joy-447518-c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463214715157:android:c9b039a122492015fa091c",
+        "android_client_info": {
+          "package_name": "com.example.expense_tracker_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEmKMJvkJ_yfb6nUcDffwtR23z499h99E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
