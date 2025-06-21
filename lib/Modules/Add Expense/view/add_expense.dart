@@ -1,10 +1,12 @@
 import 'package:expense_tracker_app/Comman_Wigets/widget/bottom_nav.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:expense_tracker_app/Model/expense_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../Comman_Wigets/widget/custom Container/custom_container.dart';
+import '../../../Controller/expense_controller.dart';
 import 'widget/custom_textfield.dart';
+import 'package:intl/intl.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
@@ -15,35 +17,39 @@ class AddExpense extends StatefulWidget {
 
 class _AddExpenseState extends State<AddExpense> {
   final _amountController = TextEditingController();
-  final _notetController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  var isLoading = false;
-
+  final _noteController = TextEditingController();
   final _dateController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  final _expenseController = Get.put(ExpenseController());
+
+  bool isLoading = false;
+  String? _selectedCategory;
+  String _selectedType = "Expense";
+
   String? _isEmptyCheck(value) {
-    if (value!.isEmpty) {
-      return 'Please enter the details';
-    }
+    if (value!.isEmpty) return 'Please enter the details';
     return null;
   }
 
   Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        isLoading = true;
-      });
+    if (_formKey.currentState!.validate() && _selectedCategory != null) {
+      setState(() => isLoading = true);
 
-      final user = FirebaseAuth.instance.currentUser;
-      // var data = {
-      //   "username": _userNameController.text,
-      //   "email": _EmailController.text,
-      //   "password": _PasswordController.text,
-      //   "Phone Number": _PhonenumberController.text,
-      // };
-      // await authService.CreateUser(data, context);
-      // setState(() {
-      //   isLoading = false;
-      // });
+      final expense = ExpenseModel(
+        item: _selectedCategory!,
+        amount: int.parse(_amountController.text),
+        date: DateFormat.yMMMMd().parse(_dateController.text),
+        type: _selectedType,
+        note: _noteController.text,
+      );
+
+      await _expenseController.addExpense(expense);
+      setState(() => isLoading = false);
+      Get.offAll(NavBar());
+    } else if (_selectedCategory == null) {
+      Get.snackbar("Missing Category", "Please select a category.",
+          backgroundColor: Colors.red.shade100, colorText: Colors.black);
     }
   }
 
@@ -51,204 +57,227 @@ class _AddExpenseState extends State<AddExpense> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Stack(
-        children: [
-          Column(
-            children: [
-              CustomContainer(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              Get.to(NavBar());
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios_new_outlined,
-                              size: 20,
-                              color: Colors.white,
-                            )),
-                        Text(
-                          "Add Expense",
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                CustomContainer(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 40),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () => Get.to(NavBar()),
+                            icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                                size: 20, color: Colors.white),
                           ),
-                        ),
-                        IconButton(
+                          Text("Add Expense",
+                              style: GoogleFonts.inter(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                          IconButton(
                             onPressed: () {},
-                            icon: Icon(
-                              Icons.more_horiz,
-                              size: 28,
-                              color: Colors.white,
-                            )),
-                      ],
-                    ),
-                  ],
+                            icon: const Icon(Icons.more_horiz,
+                                size: 28, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Positioned(
+              top: 165,
+              left: 40,
+              child: Container(
+                height: 600,
+                width: 358,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
                 ),
-              )
-            ],
-          ),
-          Positioned(
-            top: 165,
-            left: 40,
-            child: Container(
-              height: 600,
-              width: 358,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20), color: Colors.white),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(height: 45),
-                    CustomTextfield(),
-                    SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        validator: _isEmptyCheck,
-                        controller: _amountController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                          labelText: 'Amount',
-                          labelStyle: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(102, 102, 102, 1)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(221, 221, 221, 1))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(67, 136, 131, 1))),
-                        ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 45),
+
+                      /// Category
+                      CustomTextfield(
+                        onChanged: (value) => _selectedCategory = value,
                       ),
-                    ),
-                    SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Container(
+                      const SizedBox(height: 40),
+
+                      /// Amount
+                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        height: 50,
-                        width: 318,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                              color: Color.fromRGBO(221, 221, 221, 1)),
-                        ),
-                        child: DropdownButton<String>(
-                          value: "Expense",
-                          isExpanded: true,
-                          underline: SizedBox(),
-                          icon: Icon(Icons.arrow_drop_down),
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                        child: TextFormField(
+                          validator: _isEmptyCheck,
+                          controller: _amountController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 15),
+                            labelText: 'Amount',
+                            labelStyle: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(102, 102, 102, 1)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(221, 221, 221, 1))),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(67, 136, 131, 1))),
                           ),
-                          onChanged: (value) {},
-                          items: ["Expense", "Income"]
-                              .map((e) => DropdownMenuItem<String>(
-                                    value: e,
-                                    child: Text(e),
-                                  ))
-                              .toList(),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        validator: _isEmptyCheck,
-                        keyboardType: TextInputType.number,
-                        controller: _dateController,
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(
-                            Icons.calendar_today,
-                            color: Color.fromRGBO(136, 136, 136, 1),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                          labelText: 'Date',
-                          labelStyle: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(102, 102, 102, 1)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(221, 221, 221, 1))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(67, 136, 131, 1))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 40),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        controller: _notetController,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                          labelText: 'Note',
-                          labelStyle: GoogleFonts.inter(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(102, 102, 102, 1)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(221, 221, 221, 1))),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                  color: Color.fromRGBO(67, 136, 131, 1))),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 50),
-                    GestureDetector(
-                      onTap: () {
-                        if (isLoading == false) {
-                          _submitForm();
-                        }
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 90,
-                        decoration: BoxDecoration(
+                      const SizedBox(height: 40),
+
+                      /// Type (Income or Expense)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          height: 50,
+                          width: 318,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color.fromRGBO(67, 136, 131, 1)),
-                        alignment: Alignment.center,
-                        child: isLoading
-                            ? Center(child: CircularProgressIndicator())
-                            : Text(
-                                "Save",
-                                style: GoogleFonts.inter(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
+                            border: Border.all(
+                                color: const Color.fromRGBO(221, 221, 221, 1)),
+                          ),
+                          child: DropdownButton<String>(
+                            value: _selectedType,
+                            isExpanded: true,
+                            underline: const SizedBox(),
+                            icon: const Icon(Icons.arrow_drop_down),
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: const Color.fromRGBO(102, 102, 102, 1),
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedType = value!;
+                              });
+                            },
+                            items: ["Expense", "Income"]
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(item),
+                                    ))
+                                .toList(),
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                      const SizedBox(height: 40),
+
+                      /// Date Picker
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                          onTap: () async {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            var datepicked = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1999),
+                              lastDate: DateTime(3000),
+                            );
+                            if (datepicked != null) {
+                              _dateController.text =
+                                  DateFormat.yMMMMd().format(datepicked);
+                              setState(() {});
+                            }
+                          },
+                          validator: _isEmptyCheck,
+                          controller: _dateController,
+                          decoration: InputDecoration(
+                            suffixIcon: const Icon(
+                              Icons.calendar_today,
+                              color: Color.fromRGBO(136, 136, 136, 1),
+                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 15),
+                            labelText: 'Date',
+                            labelStyle: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(102, 102, 102, 1)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(221, 221, 221, 1))),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(67, 136, 131, 1))),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+
+                      /// Note
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                          controller: _noteController,
+                          decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 15),
+                            labelText: 'Note',
+                            labelStyle: GoogleFonts.inter(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: const Color.fromRGBO(102, 102, 102, 1)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(221, 221, 221, 1))),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: const BorderSide(
+                                    color: Color.fromRGBO(67, 136, 131, 1))),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 50),
+
+                      /// Save Button
+                      GestureDetector(
+                        onTap: isLoading ? null : _submitForm,
+                        child: Container(
+                          height: 40,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color.fromRGBO(67, 136, 131, 1)),
+                          alignment: Alignment.center,
+                          child: isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(
+                                      color: Colors.white))
+                              : Text("Save",
+                                  style: GoogleFonts.inter(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      )),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

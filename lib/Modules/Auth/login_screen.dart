@@ -32,9 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
         "email": _EmailController.text,
         "password": _PasswordController.text,
-        "Remaining Amount" :  0,
-        "Expenses" : 0,
-        "Income" : 0
 
       };
       await authService.login(data, context);

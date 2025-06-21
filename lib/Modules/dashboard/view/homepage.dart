@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../Comman_Wigets/widget/custom Container/custom_container.dart';
+import '../../../Controller/expense_controller.dart';
+import '../../../Model/expense_model.dart';
 import '../../Add Expense/view/add_expense.dart';
 import 'Widget/card.dart';
 
@@ -16,61 +18,38 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final expenseController = Get.put(ExpenseController());
+
+
+  @override
+  void initState() {
+    super.initState();
+    expenseController.fetchExpense();
+  }
+
   final userId = FirebaseAuth.instance.currentUser!.uid;
+
   @override
   Widget build(BuildContext context) {
-    final List transaction = [
-      {
-        'image': "",
-        'title': "Upwork",
-        'subtitle': "Today",
-        'amount': "+ \$ 850.00",
-        'amountcolor': Colors.green,
-      }, {
-        'image': "",
-        'title': "Upwork",
-        'subtitle': "Today",
-        'amount': "+ \$ 850.00",
-        'amountcolor': Colors.green,
-      }, {
-        'image': "",
-        'title': "Upwork",
-        'subtitle': "Today",
-        'amount': "+ \$ 850.00",
-        'amountcolor': Colors.green,
-      }, {
-        'image': "",
-        'title': "Upwork",
-        'subtitle': "Today",
-        'amount': "+ \$ 850.00",
-        'amountcolor': Colors.green,
-      }, {
-        'image': "",
-        'title': "Upwork",
-        'subtitle': "Today",
-        'amount': "+ \$ 850.00",
-        'amountcolor': Colors.green,
-      },{
-        'image': "",
-        'title': "Upwork",
-        'subtitle': "Today",
-        'amount': "+ \$ 850.00",
-        'amountcolor': Colors.green,
-      },
-
-    ];
-
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(const AddExpense());
+        },
+        backgroundColor: const Color.fromRGBO(67, 136, 131, 1),
+        child: const Icon(Icons.add_rounded, color: Colors.white, size: 25),
+      ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Column(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
                 children: [
                   CustomContainer(
                     child: HeadWidget(),
                   ),
-                  SizedBox(height: 80),
+                  const SizedBox(height: 100),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
@@ -88,50 +67,37 @@ class _HomepageState extends State<Homepage> {
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Color.fromRGBO(102, 102, 102, 1),
+                            color: const Color.fromRGBO(102, 102, 102, 1),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: transaction.length,
-                    itemBuilder: (context, index) {
-                      final item = transaction[index];
-                      return Transactionlist(
-                        image: item['image'],
-                        title: item['title'],
-                        subtitle: item['subtitle'],
-                        amount: item['amount'],
-                        amountColor: item['amountcolor'],
-                      );
-                    },
-                  ),
+                  const SizedBox(height: 10),
+                  Obx(() {
+                    final items = expenseController.expenseList;
+                    if (items.isEmpty) {
+                      return const Center(child: Text("No expenses yet."));
+                    }
+                    return ListView.builder(
+                      itemCount: items.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (_, index) {
+                        return Transactionlist(expenseModel: items[index]);
+                      },
+                    );
+                  }),
+                  const SizedBox(height: 100),
                 ],
               ),
-
-
-              Positioned(
-                top: 700,
-                right: 20,
-                child: FloatingActionButton(
-                  onPressed: () {
-                    Get.to(AddExpense());
-                  },
-                  backgroundColor: Color.fromRGBO(67, 136, 131, 1),
-                  child: Icon(Icons.add_rounded,color: Colors.white,size: 25,),
-                ),
-              ),
-
-              Positioned(
-                top: 150,
-                left: 32,
-                child: CustomCard(userId: userId,),
-              ),
-            ],
-          ),
+            ),
+            Positioned(
+              top: 150,
+              left: 32,
+              child: card(userId: userId),
+            ),
+          ],
         ),
       ),
     );

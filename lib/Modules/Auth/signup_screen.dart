@@ -31,9 +31,9 @@ class _SignupScreenState extends State<SignupScreen> {
         "email": _EmailController.text,
         "password": _PasswordController.text,
         "Phone Number": _PhonenumberController.text,
-        "Remaining Amount" :  0,
-        "Expenses" : 0,
-        "Income" : 0
+        // "Remaining Amount" :  0,
+        // "Expenses" : 0,
+        // "Income" : 0
 
       };
       await authService.CreateUser(data, context);

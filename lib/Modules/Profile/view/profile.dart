@@ -87,7 +87,7 @@ class Profile extends StatelessWidget {
               ],
             ),
 
-            // Profile Image Positioned on top
+
             const Positioned(
               top: 200,
               left: 150,
