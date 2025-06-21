@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Controller/auth_controller.dart';
 import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -13,58 +14,17 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  final _userNameController = TextEditingController();
-  final _PhonenumberController = TextEditingController();
-  final _EmailController = TextEditingController();
-  final _PasswordController = TextEditingController();
-  var authService = AuthService();
-  var isLoading = false;
-
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        isLoading = true;
-      });
-      var data = {
-        "username": _userNameController.text,
-        "email": _EmailController.text,
-        "password": _PasswordController.text,
-        "Phone Number": _PhonenumberController.text,
-        // "Remaining Amount" :  0,
-        // "Expenses" : 0,
-        // "Income" : 0
-
-      };
-      await authService.CreateUser(data, context);
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  String? _validateEmail(value) {
-    if (value!.isEmpty) {
-      return 'Please enter an Email';
-    }
-    RegExp emailExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-    if (!emailExp.hasMatch(value)) {
-      return 'Please enter a valid Email';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
+    final _authController = Get.put(AuthController());
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Form(
-            key: _formKey,
+            key: _authController.formKey,
             child: Column(
-
               children: [
                 SizedBox(height: 80),
                 Center(
@@ -82,7 +42,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 SizedBox(height: 50),
                 TextFormField(
-                  controller: _userNameController,
+                  controller: _authController.userNameController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter a username';
@@ -106,8 +66,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _EmailController,
-                  validator: _validateEmail,
+                  controller: _authController.emailController,
+                  validator: _authController.validateEmail,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
@@ -125,7 +85,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _PhonenumberController,
+                  controller: _authController.PhoneNumberController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -153,7 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: _PasswordController,
+                  controller: _authController.PasswordController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -188,8 +148,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed:(){ isLoading ? print("Loading") : _submitForm();} ,
-                    child: isLoading
+                    onPressed:(){ _authController.isLoading.value ? print("Loading") : _authController.submitForm(context);} ,
+                    child: _authController.isLoading.value
                         ? Center(child: CircularProgressIndicator())
                         : Text(
                             "Sign Up",

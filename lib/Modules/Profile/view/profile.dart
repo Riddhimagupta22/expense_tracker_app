@@ -58,7 +58,7 @@ class Profile extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
                 Expanded(
                   child: Container(
@@ -87,11 +87,27 @@ class Profile extends StatelessWidget {
                 ),
               ],
             ),
-            const Positioned(
-              top: 200,
+            Positioned(
+              top: 180,
               left: 150,
-              child: CircularImage(
-                image: 'Assets/Image/hand-drawn-ethnic-beauty-illustration.png',
+              child: Column(
+                children: [
+                  const CircularImage(
+                    image: 'Assets/Image/hand-drawn-ethnic-beauty-illustration.png',
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "title",
+                    style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w500),
+                  ),
+                   Text(
+                    "title",
+                    style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w500,
+                    color: Color.fromRGBO(67, 136, 131, 1))),
+
+                ],
               ),
             ),
           ],

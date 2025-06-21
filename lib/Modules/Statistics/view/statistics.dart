@@ -10,6 +10,7 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
+  String _selectedType = "Expense";
   List data = ["Day", "Week", "Month", "Year"];
   var colour = 0;
   @override
@@ -89,29 +90,33 @@ class _StatisticsState extends State<Statistics> {
           Padding(
             padding: const EdgeInsets.only(top: 30.0,left:270,right: 15),
             child: Container(
-              alignment: Alignment.center,
-              height: 40,
-              width: 120,
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              height: 50,
+              width: 318,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Color.fromRGBO(102, 102, 102, 1)),
+                border: Border.all(
+                    color: const Color.fromRGBO(221, 221, 221, 1)),
               ),
               child: DropdownButton<String>(
-                value: "Expense",
-                underline: SizedBox(),
-                icon: Icon(Icons.arrow_drop_down),
+                value: _selectedType,
+                isExpanded: true,
+                underline: const SizedBox(),
+                icon: const Icon(Icons.arrow_drop_down),
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Color.fromRGBO(102, 102, 102, 1),
+                  color: const Color.fromRGBO(102, 102, 102, 1),
                 ),
                 onChanged: (value) {
-
+                  setState(() {
+                    _selectedType = value!;
+                  });
                 },
                 items: ["Expense", "Income"]
-                    .map((e) => DropdownMenuItem<String>(
-                  value: e,
-                  child: Text(e),
+                    .map((item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(item),
                 ))
                     .toList(),
               ),
