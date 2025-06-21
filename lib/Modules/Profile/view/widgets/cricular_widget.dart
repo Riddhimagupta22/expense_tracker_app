@@ -4,7 +4,7 @@ class CircularImage extends StatelessWidget {
   final BoxFit? fit;
   final String image;
   final bool isNetworkimage;
-  final Color? overlayColor;
+  final Color? colour;
   final Color? backgroundColor;
   final double height, width;
 
@@ -13,7 +13,7 @@ class CircularImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     required this.image,
     this.isNetworkimage = false,
-    this.overlayColor,
+    this.colour,
     this.backgroundColor = const Color.fromRGBO(136, 136, 136, 1),
     this.height = 156,
     this.width = 156,
@@ -36,8 +36,7 @@ class CircularImage extends StatelessWidget {
           image: isNetworkimage
               ? NetworkImage(image)
               : AssetImage(image) as ImageProvider,
-          color: overlayColor,
-          colorBlendMode: overlayColor != null ? BlendMode.srcATop : null,
+          color: colour,
         ),
       ),
     );

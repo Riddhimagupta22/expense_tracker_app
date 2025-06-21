@@ -1,3 +1,4 @@
+import 'package:expense_tracker_app/Expense/view/expense.dart';
 import 'package:expense_tracker_app/Modules/dashboard/view/Widget/head_widget.dart';
 import 'package:expense_tracker_app/Modules/dashboard/view/Widget/transactionlist.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,11 +40,11 @@ class _HomepageState extends State<Homepage> {
         backgroundColor: const Color.fromRGBO(67, 136, 131, 1),
         child: const Icon(Icons.add_rounded, color: Colors.white, size: 25),
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Column(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Stack(
+            children: [
+              Column(
                 children: [
                   CustomContainer(
                     child: HeadWidget(),
@@ -62,14 +63,14 @@ class _HomepageState extends State<Homepage> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        Text(
+                        TextButton(onPressed: (){Get.to(ExpenseScreen());}, child: Text(
                           "See all",
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: const Color.fromRGBO(102, 102, 102, 1),
                           ),
-                        ),
+                        ),)
                       ],
                     ),
                   ),
@@ -91,13 +92,13 @@ class _HomepageState extends State<Homepage> {
                   const SizedBox(height: 100),
                 ],
               ),
-            ),
-            Positioned(
-              top: 150,
-              left: 32,
-              child: card(userId: userId),
-            ),
-          ],
+              Positioned(
+                top: 150,
+                left: 32,
+                child: card(userId: userId),
+              ),
+            ],
+          ),
         ),
       ),
     );

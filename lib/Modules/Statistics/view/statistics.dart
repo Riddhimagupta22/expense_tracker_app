@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -116,6 +117,11 @@ class _StatisticsState extends State<Statistics> {
               ),
             ),
           ),
+          // PieChart(PieChartData(
+          //
+          // ),
+          // duration: Duration(milliseconds: 50),
+          // curve: Curves.linear,)
         ],
       ))),
     );

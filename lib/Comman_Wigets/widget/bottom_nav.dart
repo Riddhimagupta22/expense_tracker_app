@@ -1,3 +1,4 @@
+import 'package:expense_tracker_app/Expense/view/expense.dart';
 import 'package:expense_tracker_app/Modules/dashboard/view/homepage.dart';
 import 'package:expense_tracker_app/Modules/Statistics/view/statistics.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> _pages = [
     Homepage(),               // Home Screen
     Statistics(),
-    Placeholder(),
+    ExpenseScreen(),
     Profile(),
 
   ];
@@ -78,7 +79,7 @@ class _NavBarState extends State<NavBar> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart),
-              label: 'Profile',
+              label: 'Statistics',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.wallet),

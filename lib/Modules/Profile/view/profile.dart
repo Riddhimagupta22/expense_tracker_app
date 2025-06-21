@@ -21,7 +21,7 @@ class Profile extends StatelessWidget {
                 CustomContainer(
                   child: Column(
                     children: [
-                      const SizedBox(height: 60),
+                      const SizedBox(height: 50),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -63,6 +63,7 @@ class Profile extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: double.infinity,
+                    height: 150,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -86,8 +87,6 @@ class Profile extends StatelessWidget {
                 ),
               ],
             ),
-
-
             const Positioned(
               top: 200,
               left: 150,

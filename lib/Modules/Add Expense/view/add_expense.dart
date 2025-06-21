@@ -106,13 +106,11 @@ class _AddExpenseState extends State<AddExpense> {
                     children: [
                       const SizedBox(height: 45),
 
-                      /// Category
                       CustomTextfield(
                         onChanged: (value) => _selectedCategory = value,
                       ),
                       const SizedBox(height: 40),
 
-                      /// Amount
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
@@ -140,7 +138,6 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                       const SizedBox(height: 40),
 
-                      /// Type (Income or Expense)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Container(
@@ -178,7 +175,6 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                       const SizedBox(height: 40),
 
-                      /// Date Picker
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
@@ -223,7 +219,7 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                       const SizedBox(height: 40),
 
-                      /// Note
+
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: TextFormField(
@@ -249,7 +245,7 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                       const SizedBox(height: 50),
 
-                      /// Save Button
+
                       GestureDetector(
                         onTap: isLoading ? null : _submitForm,
                         child: Container(
