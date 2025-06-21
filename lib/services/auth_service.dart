@@ -15,7 +15,7 @@ class AuthService {
       );
       await docdata.addUser(data);
       Get.off(NavBar());
-      print("✅ User created: ${credential.user?.uid}");
+      print("User created: ${credential.user?.uid}");
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("User created successfully!"), backgroundColor: Colors.green),
@@ -33,7 +33,7 @@ class AuthService {
       );
       Get.off(NavBar());
       await docdata.addUser(data);
-      print("✅ Login successful: ${credential.user?.uid}");
+      print("Login successful: ${credential.user?.uid}");
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Login successful!"), backgroundColor: Colors.green),
