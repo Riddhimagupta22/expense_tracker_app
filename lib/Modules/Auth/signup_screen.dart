@@ -31,14 +31,15 @@ class _SignupScreenState extends State<SignupScreen> {
         "email": _EmailController.text,
         "password": _PasswordController.text,
         "Phone Number": _PhonenumberController.text,
+        "Remaining Amount" :  0,
+        "Expenses" : 0,
+        "Income" : 0
+
       };
       await authService.CreateUser(data, context);
       setState(() {
         isLoading = false;
       });
-      // ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
-      //   SnackBar(content: Text('Sign Up is done successfully'))
-      // );
     }
   }
 
@@ -93,9 +94,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     suffixIcon: Icon(Icons.person),
                     labelText: 'User Name',
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(67, 136, 131, 1))),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
@@ -108,9 +113,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     suffixIcon: Icon(Icons.email),
                     labelText: 'Email',
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(67, 136, 131, 1))),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
@@ -133,9 +142,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     suffixIcon: Icon(Icons.phone),
                     labelText: 'Phone Number',
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(67, 136, 131, 1))),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -155,9 +168,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     suffixIcon: Icon(Icons.visibility),
                     labelText: 'Password',
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(67, 136, 131, 1))),
                   ),
                 ),
                 const SizedBox(height: 45),

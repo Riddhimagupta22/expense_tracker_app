@@ -32,15 +32,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
         "email": _EmailController.text,
         "password": _PasswordController.text,
+        "Remaining Amount" :  0,
+        "Expenses" : 0,
+        "Income" : 0
 
       };
       await authService.login(data, context);
       setState(() {
         isLoading = false;
       });
-      // ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
-      //     SnackBar(content: Text('Sign Up is done successfully'))
-      // );
     }
   }
 
@@ -89,9 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     suffixIcon: Icon(Icons.email),
                     labelText: 'Email',
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(67, 136, 131, 1))),
                   ),
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
@@ -114,9 +118,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     suffixIcon: Icon(Icons.visibility),
                     labelText: 'Password',
-                    border: OutlineInputBorder(
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                            color: Color.fromRGBO(67, 136, 131, 1))),
                   ),
                 ),
                 const SizedBox(height: 45),

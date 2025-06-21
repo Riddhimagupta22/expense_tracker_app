@@ -1,6 +1,9 @@
 import 'package:expense_tracker_app/Modules/dashboard/view/homepage.dart';
+import 'package:expense_tracker_app/Modules/Statistics/view/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../Modules/Profile/view/profile.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -10,91 +13,84 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-
   final PageController _pageViewController = PageController();
   int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    Homepage(),               // Home Screen
+    Statistics(),
+    Placeholder(),
+    Profile(),
+
+  ];
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    final iconsize = screenWidth * .065;
-    final navbarheigth = screenWidth * .23;
-
-    final fontsize = screenWidth * .03;
+    final iconSize = screenWidth * 0.065;
+    final navbarHeight = screenWidth * 0.23;
+    final fontSize = screenWidth * 0.03;
 
     return Scaffold(
-      body: PageView(physics: NeverScrollableScrollPhysics(),
+
+      body: PageView(
         controller: _pageViewController,
+        physics: NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           setState(() {
             _selectedIndex = index;
           });
         },
-        children: [
-          Homepage(),
-        ],
+        children: _pages,
       ),
       bottomNavigationBar: Container(
-        height:  navbarheigth,
-        decoration: BoxDecoration(
-
-            border: Border(
-                top: BorderSide(
-                    color: Color(0xFFF0EFEF),width: 1
-                )
-            )
+        height: navbarHeight,
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: Color(0xFFF0EFEF), width: 1)),
         ),
         child: BottomNavigationBar(
 
-            backgroundColor: Colors.white,
-            iconSize: iconsize,
-            selectedLabelStyle: GoogleFonts.inter(
-              fontWeight: FontWeight.w600, fontSize: fontsize,
+          backgroundColor: Colors.white,
+          iconSize: iconSize,
+          selectedLabelStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w600,
+            fontSize: fontSize,
+          ),
+          unselectedLabelStyle: GoogleFonts.inter(
+            fontWeight: FontWeight.w500,
+            fontSize: fontSize,
+          ),
+          selectedItemColor: Color.fromRGBO(84, 153, 148, 1),
+          unselectedItemColor: Color.fromRGBO(170, 170, 170, 1),
+          currentIndex: _selectedIndex,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+            _pageViewController.jumpToPage(index);
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
             ),
-            unselectedLabelStyle: GoogleFonts.inter(
-              fontWeight: FontWeight.w500, fontSize: fontsize,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bar_chart),
+              label: 'Profile',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.wallet),
+              label: 'Wallet',
 
-            selectedItemColor: Color(0xFF0CA201),
-            unselectedItemColor:  Color(0xFF000000),
-            currentIndex: _selectedIndex,
-            type: BottomNavigationBarType.fixed,
-            onTap: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-              _pageViewController.jumpToPage(index);
-            },items: [
-          BottomNavigationBarItem(icon: Column( mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.home_outlined),
-              SizedBox(height: screenWidth*.01,),
-            ],
-          ), label: 'Home'),
-          BottomNavigationBarItem(icon:Column( mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.favorite_border),
-              SizedBox(height: screenWidth*.01,),
-            ],),label: 'Favourite'),
-          BottomNavigationBarItem(
-              icon:Column( mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.search_rounded),
-                  SizedBox(height: screenWidth*.01,),
-                ],),label: 'Search'),
-          BottomNavigationBarItem(
-              icon: Column( mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.person_outline),
-                  SizedBox(height: screenWidth*.01,),
-                ],), label: 'Profile'),
-          BottomNavigationBarItem(
-              icon: Column( mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.menu),
-                  SizedBox(height: screenWidth*.01,),
-                ],), label: 'Menu'),
-        ]),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
     );
   }

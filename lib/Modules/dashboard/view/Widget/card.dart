@@ -1,8 +1,57 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomCard extends StatelessWidget {
-  const CustomCard({super.key});
+class CustomCard extends StatefulWidget {
+   CustomCard({super.key, required this.userId});
+   String userId;
+
+  @override
+  State<CustomCard> createState() => _CustomCardState();
+}
+
+class _CustomCardState extends State<CustomCard> {
+  late  Stream<DocumentSnapshot> _userStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _userStream = FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userId)
+        .snapshots();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: _userStream,
+      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return const Text('Something went wrong');
+        }
+
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Text("Loading...");
+        }
+
+        var data = snapshot.data!.data() as Map<String, dynamic>;
+
+        return card(data: data); // ✅ Use a renamed widget here
+      },
+    );
+  }
+}
+
+
+
+class card extends StatelessWidget {
+   card({super.key,required this.data});
+  Map data;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +100,7 @@ class CustomCard extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  "\$ 2,548.00",
+                  "Rs ${data["Remaining Amount"]}",
                   style: GoogleFonts.inter(
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
@@ -116,7 +165,7 @@ class CustomCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "\$ 1,840.00",
+                  "Rs ${data["Income"]}",
                   style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -124,7 +173,7 @@ class CustomCard extends StatelessWidget {
                       letterSpacing: -1),
                 ),
                 Text(
-                  "\$ 284.00",
+                  "Rs ${data["Expenses"]}",
                   style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -139,3 +188,4 @@ class CustomCard extends StatelessWidget {
     );
   }
 }
+
