@@ -41,7 +41,7 @@ class _CustomCardState extends State<CustomCard> {
 
         var data = snapshot.data!.data() as Map<String, dynamic>;
 
-        return card(data: data); // ✅ Use a renamed widget here
+        return card(data: data); 
       },
     );
   }
