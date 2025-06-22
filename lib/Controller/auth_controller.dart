@@ -24,8 +24,8 @@ class AuthController extends GetxController {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
       final data = {
-        "username": userNameController.text,
-        "email": emailController.text,
+        "username": userNameController.text.trim(),
+        "email": emailController.text.trim(),
         "password": PasswordController.text,
         "Phone Number": PhoneNumberController.text,
       };
@@ -38,7 +38,7 @@ class AuthController extends GetxController {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
       final data = {
-        "email": emailController.text,
+        "email": emailController.text.trim(),
         "password": PasswordController.text,
       };
       await authService.login(data, context);

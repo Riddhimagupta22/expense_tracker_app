@@ -41,7 +41,7 @@ class ExpenseController extends GetxController {
 
     _firestore
         .collection('expenses')
-        .where(currentUser.uid)
+        .where(currentUser.uid).orderBy('date',descending: true)
         .snapshots()
         .listen((snapshot) {
       expenseList.value = snapshot.docs
@@ -66,5 +66,17 @@ class ExpenseController extends GetxController {
     }, onError: (e) {
       print("Error while fetching expenses: $e");
     });
+  }
+
+  getTypeData(String selectedType){
+    var items;
+    final Map<String,double> itemData ={};
+    for ( items in expenseList ){
+      if (items.type == selectedType){
+        itemData[items.item] = (itemData[items.item]??0)+items.amount;
+      }
+    }
+    return itemData;
+
   }
 }

@@ -1,4 +1,6 @@
 
+import 'package:expense_tracker_app/Modules/Statistics/view/widget/pie_chart.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,11 +49,10 @@ class _StatisticsState extends State<Statistics> {
               ],
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20 ),
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.only(left: 15.0,right:15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -88,7 +89,7 @@ class _StatisticsState extends State<Statistics> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 30.0,left:270,right: 15),
+            padding: const EdgeInsets.only(top: 15.0,left:270,right: 15),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               height: 50,
@@ -122,11 +123,8 @@ class _StatisticsState extends State<Statistics> {
               ),
             ),
           ),
-          // PieChart(PieChartData(
-          //
-          // ),
-          // duration: Duration(milliseconds: 50),
-          // curve: Curves.linear,)
+          Piechart()
+
         ],
       ))),
     );

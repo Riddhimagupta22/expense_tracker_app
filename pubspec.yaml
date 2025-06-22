@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 
 # Charts & Analytics
-  fl_chart: ^0.71.0
+  fl_chart: ^0.66.0
 
 # PDF and CSV Export
   pdf: ^3.11.3

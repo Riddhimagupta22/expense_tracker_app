@@ -99,12 +99,12 @@ class Profile extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    "title",
+                    "Enjelin Morgeana",
                     style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                    Text(
-                    "title",
-                    style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w500,
+                    "@enjelin_morgeana",
+                    style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500,
                     color: Color.fromRGBO(67, 136, 131, 1))),
 
                 ],
