@@ -1,7 +1,9 @@
 import 'package:expense_tracker_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'Controller/expense_controller.dart';
 import 'Modules/Auth/signup_screen.dart';
 import 'firebase_options.dart';
 
@@ -10,6 +12,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Get.put(ExpenseController());
   runApp(const MyApp());
 }
 

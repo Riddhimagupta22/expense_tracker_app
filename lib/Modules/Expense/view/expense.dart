@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../Controller/expense_controller.dart';
-import '../../Modules/dashboard/view/Widget/transactionlist.dart';
+import '../../../Controller/expense_controller.dart';
+import '../../dashboard/view/Widget/transactionlist.dart';
 
 class ExpenseScreen extends StatefulWidget {
 ExpenseScreen({super.key});

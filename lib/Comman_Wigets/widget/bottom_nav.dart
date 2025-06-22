@@ -1,9 +1,9 @@
-import 'package:expense_tracker_app/Expense/view/expense.dart';
 import 'package:expense_tracker_app/Modules/dashboard/view/homepage.dart';
 import 'package:expense_tracker_app/Modules/Statistics/view/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../Modules/Expense/view/expense.dart';
 import '../../Modules/Profile/view/profile.dart';
 
 class NavBar extends StatefulWidget {

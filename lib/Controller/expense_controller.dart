@@ -68,15 +68,4 @@ class ExpenseController extends GetxController {
     });
   }
 
-  getTypeData(String selectedType){
-    var items;
-    final Map<String,double> itemData ={};
-    for ( items in expenseList ){
-      if (items.type == selectedType){
-        itemData[items.item] = (itemData[items.item]??0)+items.amount;
-      }
-    }
-    return itemData;
-
-  }
 }
