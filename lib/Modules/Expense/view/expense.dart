@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../Controller/expense_controller.dart';
+import '../../../Controller/pdf_controller.dart';
 import '../../dashboard/view/Widget/transactionlist.dart';
 
 class ExpenseScreen extends StatefulWidget {
@@ -27,6 +28,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(child: Column(children: [
+          SizedBox(height: 15),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Row(
@@ -39,18 +41,28 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                       size: 20,
                     )),
                 Text(
-                  "Expense",
+                  "Transaction",
                   style: GoogleFonts.inter(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.more_horiz,
-                      size: 28,
-                    )),
+                PopupMenuButton<String>(
+                  icon: Icon(Icons.more_horiz, size: 28), // Same icon as before
+                  onSelected: (value) {
+                    if (value == 'export_pdf') {
+                      CreatePDF(expenseController.expenseList);
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'export_pdf',
+                      child: Text('Export to PDF'),
+                    ),
+                    // You can add more options here
+                  ],
+                ),
+
               ],
             ),
           ),

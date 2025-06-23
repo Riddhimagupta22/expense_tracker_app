@@ -14,8 +14,8 @@ class card extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx((){
       return Container(
-        height: 200,
-        width: 380,
+        height: 180,
+        width: 300,
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -60,7 +60,7 @@ class card extends StatelessWidget {
                   Text(
                     "Rs ${_expenseController.balance.value.toStringAsFixed(3)}",
                     style: GoogleFonts.inter(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                     ),
@@ -125,7 +125,7 @@ class card extends StatelessWidget {
                   Text(
                     "Rs ${_expenseController.totalIncome.value.toStringAsFixed(3)}",
                     style: GoogleFonts.inter(
-                        fontSize: 20,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         letterSpacing: -1),
@@ -133,7 +133,7 @@ class card extends StatelessWidget {
                   Text(
                     "Rs ${_expenseController.totalExpense.value.toStringAsFixed(3)}",
                     style: GoogleFonts.inter(
-                        fontSize: 20,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                         letterSpacing: -1),

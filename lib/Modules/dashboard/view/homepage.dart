@@ -51,7 +51,7 @@ class _HomepageState extends State<Homepage> {
                     child: HeadWidget(),
                   ),
                   const SizedBox(height: 100),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
@@ -79,7 +79,10 @@ class _HomepageState extends State<Homepage> {
                   Obx(() {
                     final items = expenseController.expenseList;
                     if (items.isEmpty) {
-                      return const Center(child: Text("No expenses yet."));
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 50.0),
+                        child: const Center(child: Text("No expenses yet.")),
+                      );
                     }
                     return ListView.builder(
                       itemCount: items.length,

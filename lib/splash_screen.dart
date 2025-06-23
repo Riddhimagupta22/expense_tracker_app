@@ -1,4 +1,5 @@
 import 'package:expense_tracker_app/Modules/Auth/signup_screen.dart';
+import 'package:expense_tracker_app/Modules/onBoarding/view/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ class _SplashState extends State<Splash> {
   void initState(){
     super.initState();
     Future.delayed(Duration(seconds: 6),(){
-      Get.to(SignupScreen());
+      Get.off(SignupScreen());
     });
   }
 

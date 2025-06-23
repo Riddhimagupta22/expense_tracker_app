@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expense_tracker_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
+import 'Controller/analytics_controller.dart';
+import 'Controller/auth_controller.dart';
 import 'Controller/expense_controller.dart';
-import 'Modules/Auth/signup_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -12,7 +13,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+  );
+
+
   Get.put(ExpenseController());
+  Get.put(AuthController());
+  Get.put(AnalyticsController());
   runApp(const MyApp());
 }
 
@@ -28,9 +36,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromRGBO(84, 153, 148, 1)),
       ),
-      home: Splash(),
+      home: const Splash(),
     );
   }
 }

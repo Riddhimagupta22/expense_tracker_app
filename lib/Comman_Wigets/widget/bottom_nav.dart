@@ -18,7 +18,7 @@ class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Homepage(),               // Home Screen
+    Homepage(),               
     Statistics(),
     ExpenseScreen(),
     Profile(),
