@@ -1,10 +1,9 @@
-import 'package:expense_tracker_app/Modules/Auth/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../../Comman_Wigets/widget/custom Container/custom_container.dart';
 import '../../Controller/auth_controller.dart';
-import '../../services/auth_service.dart';
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -14,119 +13,195 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _authController = Get.find<AuthController>();
+  bool _obscurePassword = true;
+
   @override
   Widget build(BuildContext context) {
-    final _authController = Get.put(AuthController());
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _authController.formKey,
-            child: Column(
-              children: [
-                SizedBox(height: 240),
-                Center(
-                  child: SizedBox(
-                    width: 250,
-                    child: Text(
-                      "Login Account",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              CustomContainer(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Center(
+                    child: SizedBox(
+                      width: 250,
+                      child: Text(
+                        "Login Account",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _authController.emailController,
-                  validator: _authController.validateEmail,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.email),
-                    labelText: 'Email',
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(67, 136, 131, 1))),
-                  ),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                ),
-                const SizedBox(height: 16),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _authController.PasswordController,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter a password';
-                    }
-                    if (value.length < 6) {
-                      return 'Please enter atleast 6 digit password';
-                    }
-
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.visibility),
-                    labelText: 'Password',
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide:
-                            BorderSide(color: Color.fromRGBO(67, 136, 131, 1))),
-                  ),
-                ),
-                const SizedBox(height: 45),
-                SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 180),
+                child: Container(
+                  width: screenWidth * 0.85,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 4,
+                        blurRadius: 10,
+                        offset: Offset(0, 4),
                       ),
-                    ),
-                    onPressed: () {
-                      _authController.isLoading.value
-                          ? print("Loading")
-                          : _authController.submitLoginForm(context);
-                    },
-                    child: _authController.isLoading.value
-                        ? Center(child: CircularProgressIndicator())
-                        : Text(
-                            "Log In",
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                    ],
+                  ),
+                  child: Form(
+                    key: _authController.LoginformKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          controller: _authController.userNameController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a username';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.name,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.person),
+                            labelText: 'User Name',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(67, 136, 131, 1),
+                              ),
                             ),
                           ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: _authController.emailController,
+                          validator: _authController.validateEmail,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.email),
+                            labelText: 'Email',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(67, 136, 131, 1),
+                              ),
+                            ),
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          obscureText: _obscurePassword,
+                          controller: _authController.PasswordController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter a password';
+                            }
+                            if (value.length < 6) {
+                              return 'Please enter at least 6 characters';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
+                            labelText: 'Password',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                color: Color.fromRGBO(67, 136, 131, 1),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 45),
+                        Obx(() => SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: _authController.isLoading.value
+                                ? null
+                                : () {
+                              _authController
+                                  .submitLoginForm(context);
+                            },
+                            child: _authController.isLoading.value
+                                ? const CircularProgressIndicator(
+                                color: Colors.white)
+                                : Text(
+                              "Log In",
+                              style: GoogleFonts.inter(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )),
+                        const SizedBox(height: 30),
+                        TextButton(
+                          onPressed: () => Get.to(SignupScreen()),
+                          child: Text(
+                            "Create a new Account",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.inter(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(height: 30),
-                TextButton(
-                  onPressed: () => Get.to(SignupScreen()),
-                  child: Text(
-                    "Create a new Account",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.teal),
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

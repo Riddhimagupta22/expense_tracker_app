@@ -64,7 +64,7 @@ class _AddExpenseState extends State<AddExpense> {
                 CustomContainer(
                   child: Column(
                     children: [
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 50),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -73,7 +73,7 @@ class _AddExpenseState extends State<AddExpense> {
                             icon: const Icon(Icons.arrow_back_ios_new_outlined,
                                 size: 20, color: Colors.white),
                           ),
-                          Text("Add Expense",
+                          Text("Add Transaction",
                               style: GoogleFonts.inter(
                                   fontSize: 20,
                                   color: Colors.white,
@@ -91,25 +91,33 @@ class _AddExpenseState extends State<AddExpense> {
               ],
             ),
             Positioned(
-              top: 165,
-              left: 40,
+              top: 140,
+              left: 30,
               child: Container(
-                height: 600,
-                width: 358,
+                height: 530,
+                width: 300,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3), // soft grey shadow
+                      spreadRadius: 4,
+                      blurRadius: 10,
+                      offset: Offset(0, 4), // moves shadow downwards
+                    ),
+                  ],
                 ),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     children: [
-                      const SizedBox(height: 45),
+                      const SizedBox(height: 40),
 
                       CustomTextfield(
                         onChanged: (value) => _selectedCategory = value,
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -136,13 +144,13 @@ class _AddExpenseState extends State<AddExpense> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
-                          height: 50,
+                          height: 45,
                           width: 318,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -173,7 +181,7 @@ class _AddExpenseState extends State<AddExpense> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -217,7 +225,7 @@ class _AddExpenseState extends State<AddExpense> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 30),
 
 
                       Padding(
@@ -243,7 +251,7 @@ class _AddExpenseState extends State<AddExpense> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 40),
 
 
                       GestureDetector(

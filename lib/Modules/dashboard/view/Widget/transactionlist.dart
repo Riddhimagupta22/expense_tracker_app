@@ -20,12 +20,15 @@ class Transactionlist extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.asset(
-          "Assets/Image/hand-drawn-ethnic-beauty-illustration.png",
+          expenseModel.type == 'Expense'
+              ? 'Assets/Image/expense_11442705-removebg-preview.png'
+              : 'Assets/Image/capital-gain_18096481-removebg-preview.png',
           height: 50,
           width: 50,
           fit: BoxFit.cover,
         ),
       ),
+
       title: Text(
         expenseModel.item,
         style: GoogleFonts.inter(
@@ -42,9 +45,9 @@ class Transactionlist extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        "₹${expenseModel.amount.toStringAsFixed(2)}",
+        "Rs ${expenseModel.amount.toStringAsFixed(2)}",
         style: GoogleFonts.inter(
-          fontSize: 18,
+          fontSize: 17,
           fontWeight: FontWeight.w600,
           color: expenseModel.type == 'Expense' ? Colors.red : Colors.green,
         ),

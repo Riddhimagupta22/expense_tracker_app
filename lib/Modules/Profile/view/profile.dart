@@ -1,6 +1,7 @@
 import 'package:expense_tracker_app/Comman_Wigets/widget/custom%20Container/custom_container.dart';
 import 'package:expense_tracker_app/Modules/Profile/view/widgets/cricular_widget.dart';
 import 'package:expense_tracker_app/Modules/Profile/view/widgets/profile_menu.dart';
+import 'package:expense_tracker_app/Modules/Profile/view/widgets/user_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,7 +54,7 @@ class Profile extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 100), // Space for profile image
+                      const SizedBox(height: 100),
                     ],
                   ),
                 ),
@@ -74,7 +75,7 @@ class Profile extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                     child: ListView(
                       children: const [
-                        SizedBox(height: 50), // Space below image
+                        SizedBox(height: 50),
                         ProfileMenu(title: "Invite Friends", icon: Icons.person_add_alt_1),
                         ProfileMenu(title: "Account Info", icon: Icons.account_circle),
                         ProfileMenu(title: "Personal Profile", icon: Icons.person_outline),
@@ -88,27 +89,9 @@ class Profile extends StatelessWidget {
               ],
             ),
             Positioned(
-              top: 180,
-              left: 150,
-              child: Column(
-                children: [
-                  const CircularImage(
-                    image: 'Assets/Image/hand-drawn-ethnic-beauty-illustration.png',
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Enjelin Morgeana",
-                    style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w500),
-                  ),
-                   Text(
-                    "@enjelin_morgeana",
-                    style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500,
-                    color: Color.fromRGBO(67, 136, 131, 1))),
-
-                ],
-              ),
+              top: 170,
+              left: 110,
+              child: UserDetail(),
             ),
           ],
         ),

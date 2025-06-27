@@ -10,7 +10,7 @@ class CustomContainer extends StatelessWidget {
       clipper: ConcaveClipper(),
       child: Container(
         width: double.infinity,
-        height: 287,
+        height: 260,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
               begin: Alignment.topLeft,

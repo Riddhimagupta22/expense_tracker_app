@@ -4,6 +4,7 @@ import '../services/auth_service.dart';
 
 class AuthController extends GetxController {
   final formKey = GlobalKey<FormState>();
+  final LoginformKey = GlobalKey<FormState>();
 
   final userNameController = TextEditingController();
   final PhoneNumberController = TextEditingController();
@@ -35,11 +36,12 @@ class AuthController extends GetxController {
   }
 
   Future<void> submitLoginForm(BuildContext context) async {
-    if (formKey.currentState!.validate()) {
+    if (LoginformKey.currentState!.validate()) {
       isLoading.value = true;
       final data = {
         "email": emailController.text.trim(),
         "password": PasswordController.text,
+        "username": userNameController.text.trim(),
       };
       await authService.login(data, context);
       isLoading.value = false;
