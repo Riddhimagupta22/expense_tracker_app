@@ -13,7 +13,7 @@ class Transactionlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Format date
+    
     final formattedDate = DateFormat('dd MMM, yyyy').format(expenseModel.date);
 
     return ListTile(
