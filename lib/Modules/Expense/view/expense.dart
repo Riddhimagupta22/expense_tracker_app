@@ -48,7 +48,7 @@ class _ExpenseScreenState extends State<ExpenseScreen> {
                   ),
                 ),
                 PopupMenuButton<String>(
-                  icon: Icon(Icons.more_horiz, size: 28), // Same icon as before
+                  icon: Icon(Icons.more_horiz, size: 28),
                   onSelected: (value) {
                     if (value == 'export_pdf') {
                       CreatePDF(expenseController.expenseList);
