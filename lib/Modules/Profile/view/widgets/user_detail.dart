@@ -18,7 +18,7 @@ class UserDetail extends StatelessWidget {
         stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
     builder: (context, snapshot) {
     if (snapshot.connectionState == ConnectionState.waiting) {
-    return const SizedBox(); // Optional: loading widget
+    return const SizedBox(); 
     }
 
     if (!snapshot.hasData || !snapshot.data!.exists) {
